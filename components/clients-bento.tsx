@@ -20,13 +20,17 @@ export default function ClientsBento() {
       <div className="overflow-hidden">
         <div className="marquee-track flex items-center gap-4 w-max">
           {duplicated.map((src, idx) => (
-            <img
+            <div
               key={`${src}-${idx}`}
-              src={encodeURI(src)}
-              alt="Logo client"
-              className="h-24 md:h-28 flex-shrink-0 object-contain"
-              loading="lazy"
-            />
+              className="flex-shrink-0 h-24 md:h-28 w-40 md:w-48 flex items-center justify-center"
+            >
+              <img
+                src={encodeURI(src)}
+                alt="Logo client"
+                className="max-h-full max-w-full object-contain"
+                loading="lazy"
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -1,12 +1,13 @@
 "use client"
 
 import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { SlidingNumber } from "@/components/animate-ui/primitives/texts/sliding-number"
 
 export default function AboutSection() {
   const stats = [
-    { value: "5+", label: "Ans d'expérience" },
-    { value: "50+", label: "Projets réalisés" },
-    { value: "100%", label: "Satisfaction client" },
+    { value: 5, suffix: "+", label: "Ans d'expérience" },
+    { value: 50, suffix: "+", label: "Projets réalisés" },
+    { value: 100, suffix: "%", label: "Satisfaction client" },
   ]
 
   return (
@@ -34,7 +35,7 @@ export default function AboutSection() {
           </AspectRatio>
         </div>
 
-        {/* Stats */}
+        {/* Stats (animated slowly, blue numbers) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {stats.map((stat, index) => (
             <div
@@ -42,8 +43,18 @@ export default function AboutSection() {
               className="border border-border rounded-lg p-8 hover:border-primary transition-colors duration-300"
             >
               <div className="space-y-2">
-                <div className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  {stat.value}
+                <div className="text-5xl font-bold">
+                  <SlidingNumber
+                    className="text-primary"
+                    number={stat.value}
+                    fromNumber={0}
+                    decimalPlaces={0}
+                    transition={{ stiffness: 60, damping: 28, mass: 0.6 }}
+                    delay={80 * index}
+                    inView={true}
+                    inViewOnce={true}
+                  />
+                  <span className="text-primary">{stat.suffix}</span>
                 </div>
                 <p className="text-muted-foreground text-sm uppercase tracking-wider">{stat.label}</p>
               </div>
