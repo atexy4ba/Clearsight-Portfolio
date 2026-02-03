@@ -90,7 +90,7 @@ export default function HeroMinimal() {
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
       <div className="absolute top-32 right-1/4 w-64 h-64 bg-primary/3 rounded-full blur-3xl" />
     
-      <div className="relative z-10 max-w-5xl md:max-w-6xl mx-auto px-6 text-center mt-[10vh] md:mt-[14vh] lg:mt-[15vh]">
+      <div className="relative z-10 max-w-5xl md:max-w-6xl mx-auto px-6 text-center mt-0 md:mt-0 lg:mt-0">
         {/* Minimal tagline */}
         <p className="text-sm tracking-widest uppercase text-muted-foreground mb-8">
           <span className="font-bold">Creative Productions Studio</span>
