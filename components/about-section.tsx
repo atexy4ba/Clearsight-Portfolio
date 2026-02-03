@@ -25,7 +25,7 @@ export default function AboutSection() {
 
         {/* Video */}
         <div className="border border-border rounded-lg overflow-hidden">
-          <AspectRatio ratio={16 / 9}>
+          <AspectRatio ratio={21 / 9}>
             <video
               src="/cv%20final.mp4"
               controls
