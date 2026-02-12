@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-
-import { Mail, Phone, MapPin, Send } from "lucide-react"
+import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react"
 import { type FormEvent, useState } from "react"
+import { toast } from "sonner"
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,13 +12,39 @@ export default function Contact() {
     project: "",
     message: "",
   })
+  
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-    setFormData({ name: "", email: "", project: "", message: "" })
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => null)
+        const detail = err?.detail || err?.error || "Erreur serveur"
+        throw new Error(detail)
+      }
+
+      setSubmitted(true)
+      setFormData({ name: "", email: "", project: "", message: "" })
+      toast.success("Message envoyé avec succès !")
+      setTimeout(() => setSubmitted(false), 3000)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Une erreur est survenue. Veuillez réessayer."
+      toast.error(message)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -43,10 +69,10 @@ export default function Contact() {
                 <div>
                   <div className="font-semibold mb-1">Email</div>
                   <a
-                    href="mailto:hello@clearsight.studio"
+                    href="mailto:clearsightprod@gmail.com"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    hello@clearsight.studio
+                    clearsightprod@gmail.com
                   </a>
                 </div>
               </div>
@@ -126,7 +152,8 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors disabled:opacity-50"
                   placeholder="Your name"
                 />
               </div>
@@ -142,7 +169,8 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors disabled:opacity-50"
                   placeholder="your@email.com"
                 />
               </div>
@@ -157,7 +185,8 @@ export default function Contact() {
                   value={formData.project}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors disabled:opacity-50"
                 >
                   <option value="">Select a project type</option>
                   <option value="commercial">Commercial Video</option>
@@ -178,18 +207,29 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  disabled={isSubmitting}
                   rows={6}
-                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:outline-none transition-colors resize-none disabled:opacity-50"
                   placeholder="Share your vision and goals..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                <Send className="w-5 h-5" />
-                Send Message
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Send Message
+                  </>
+                )}
               </button>
             </form>
           </div>
