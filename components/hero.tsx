@@ -35,7 +35,7 @@ export default function Hero() {
             View Our Work
           </a>
           <a
-            href="#contact"
+            href="/brief"
             className="px-8 py-3 rounded-lg border border-primary/50 text-primary hover:bg-primary/10 transition-colors font-semibold"
           >
             Get in Touch

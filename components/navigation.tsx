@@ -21,9 +21,9 @@ export default function Navigation() {
           <Link href="/work" className="text-sm hover:opacity-80 transition-opacity">
             Work
           </Link>
-          <a href="/#contact" className="text-sm hover:opacity-80 transition-opacity">
-            Contact
-          </a>
+          <Link href="/brief" className="text-sm hover:opacity-80 transition-opacity">
+            Brief
+          </Link>
           {mounted && (
             <button
               type="button"
