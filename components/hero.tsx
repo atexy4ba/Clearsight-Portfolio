@@ -16,7 +16,10 @@ export default function Hero() {
           <span className="text-sm text-primary">Welcome to Clearsight</span>
         </div>
 
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-balance">
+        <h1
+          data-animate-title
+          className="title-animate text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-balance"
+        >
           Visual{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Storytelling</span>{" "}
           at Its Finest
@@ -35,7 +38,7 @@ export default function Hero() {
             View Our Work
           </a>
           <a
-            href="/brief"
+            href="/contact"
             className="px-8 py-3 rounded-lg border border-primary/50 text-primary hover:bg-primary/10 transition-colors font-semibold"
           >
             Get in Touch

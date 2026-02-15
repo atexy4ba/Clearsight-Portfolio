@@ -1,143 +1,78 @@
 "use client"
 
-import { ArrowRight } from "lucide-react"
-// Removed unused AnimatedText import
-import { useEffect, useRef } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Link from "next/link"
+import { ArrowRight, PlayCircle } from "lucide-react"
 
 export default function HeroMinimal() {
-  const headlineRef = useRef<HTMLHeadingElement | null>(null)
-  const hasScrolledRef = useRef(false)
-  const playedRef = useRef(false)
-  const initialScrollRef = useRef(0)
-  const line1 = "WE CREATE"
-  const line2 = "VISUAL MOMENTS"
-
-  useEffect(() => {
-    if (!headlineRef.current) return
-
-    initialScrollRef.current = window.scrollY || 0
-    gsap.registerPlugin(ScrollTrigger)
-
-    const ctx = gsap.context(() => {
-      const chars = gsap.utils.toArray<HTMLElement>(headlineRef.current!.querySelectorAll('.char'))
-
-      gsap.set(chars, { y: 40, opacity: 0 })
-
-      const tl = gsap.timeline({ paused: true })
-      tl.to(chars, {
-        y: 0,
-        opacity: 1,
-        ease: 'power3.out',
-        duration: 0.9,
-        stagger: 0.045,
-      })
-
-      // ScrollTrigger: n’active pas la timeline tant que l’utilisateur n’a pas scrollé
-      const trigger = ScrollTrigger.create({
-        trigger: headlineRef.current!,
-        start: 'top 75%',
-        onEnter: () => {
-          if (playedRef.current) return
-          if (!hasScrolledRef.current) return
-          tl.play()
-          playedRef.current = true
-        },
-        onEnterBack: () => {
-          if (playedRef.current) return
-          if (!hasScrolledRef.current) return
-          tl.play()
-          playedRef.current = true
-        },
-      })
-
-      const handleUserScroll = () => {
-        if (playedRef.current) return
-        const delta = Math.abs((window.scrollY || 0) - initialScrollRef.current)
-        if (!hasScrolledRef.current && delta < 20) return
-        hasScrolledRef.current = true
-        const el = headlineRef.current
-        if (!el) return
-        const rect = el.getBoundingClientRect()
-        if (rect.top < window.innerHeight * 0.75 && rect.bottom > 0) {
-          tl.play()
-          playedRef.current = true
-        }
-      }
-
-      window.addEventListener('scroll', handleUserScroll, { passive: true })
-      window.addEventListener('wheel', handleUserScroll, { passive: true })
-      window.addEventListener('touchmove', handleUserScroll, { passive: true })
-
-      return () => {
-        window.removeEventListener('scroll', handleUserScroll)
-        window.removeEventListener('wheel', handleUserScroll)
-        window.removeEventListener('touchmove', handleUserScroll)
-        trigger?.kill()
-      }
-    }, headlineRef)
-
-    return () => ctx.revert()
-  }, [])
-
-  // supprimer l’ancienne constante
-  // const textToAnimate = "WE CREATE VISUAL MOMENTS"
-
+  const heroLines = ["Des visuels qui font", "vibrer votre marque"]
   return (
-    <section className="relative min-h-screen flex items-start justify-center pt-20">
-      {/* Subtle background element */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-      <div className="absolute top-32 right-1/4 w-64 h-64 bg-primary/3 rounded-full blur-3xl" />
-    
-      <div className="relative z-10 max-w-5xl md:max-w-6xl mx-auto px-6 text-center mt-0 md:mt-0 lg:mt-0">
-        {/* Minimal tagline */}
-        <p className="text-sm tracking-widest uppercase text-muted-foreground mb-8">
-          <span className="font-bold">Creative Productions Studio</span>
-        </p>
-    
-        {/* Clean headline */}
-        <h1
-          ref={headlineRef}
-          className="flex flex-col items-center gap-2 text-center text-[clamp(1.5rem,10vw,6rem)] md:text-[clamp(2rem,8vw,6rem)] lg:text-[clamp(2.5rem,7vw,8rem)] font-bold mb-8 leading-tight text-black dark:text-white"
-        >
-          <span className="inline-block whitespace-nowrap mx-auto">
-            {Array.from(line1).map((char, i) => (
-              <span
-                key={`l1-${i}`}
-                className={`char inline-block ${i > 0 && line1[i - 1] !== " " && char !== " " ? "-ml-[0.035em]" : ""}`}
-              >
-                {char === " " ? "\u00A0" : char}
+    <section className="relative min-h-screen overflow-hidden pt-24">
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background pointer-events-none" />
+      <div className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-primary/20 blur-[120px] opacity-70" />
+      <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-secondary/40 blur-[140px] opacity-50" />
+
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-6">
+        <div className="space-y-6 text-center">
+            <div className="inline-flex items-center gap-3 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Studio visuel nouvelle génération
+            </div>
+
+            <h1
+              data-animate-title
+              className="title-animate text-balance text-[clamp(2.4rem,5.4vw,4.75rem)] font-[var(--font-poly)] font-semibold leading-[1.05]"
+            >
+              <span className="sr-only">{heroLines.join(" ")}</span>
+              <span aria-hidden className="hero-title">
+                {heroLines.map((line, index) => (
+                  <span
+                    key={line}
+                    className="hero-line"
+                    style={{ animationDelay: `${index * 160}ms` }}
+                  >
+                    {line}
+                  </span>
+                ))}
               </span>
-            ))}
-          </span>
-          <span className="inline-block whitespace-nowrap mx-auto w-fit px-6 sm:px-8 md:px-10 lg:px-12">
-            {Array.from(line2).map((char, i) => (
-              <span
-                key={`l2-${i}`}
-                className={`char inline-block ${i > 0 && line2[i - 1] !== " " && char !== " " ? "-ml-[0.035em]" : ""}`}
+            </h1>
+
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Nous concevons des vidéos, des campagnes photo et des contenus narratifs avec un rendu premium pour les
+              marques ambitieuses.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link
+                href="/work"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary/90"
               >
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
-          </span>
-        </h1>
-    
-        {/* Minimal description -> requested h3 */}
-        <h3 className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-12">
-          From concept to final frame film video and photography that tell your story
-        </h3>
-    
-        {/* Clean CTA */}
-        <a
-          href="/work"
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors"
-        >
-          Explore Our Work
-          <ArrowRight className="w-5 h-5" />
-        </a>
+                Voir nos réalisations
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-7 py-3 text-sm font-semibold text-foreground transition hover:border-primary/50 hover:text-primary"
+              >
+                Lancer un projet
+                <PlayCircle className="h-4 w-4" />
+              </Link>
+            </div>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-4xl">
+          <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-primary/20 blur-2xl opacity-80" />
+          <div className="relative aspect-video overflow-hidden rounded-[2rem] border border-white/10 bg-black/90 shadow-2xl [transform:perspective(1200px)_rotateX(8deg)_rotateY(-12deg)_skewY(-2deg)] transition duration-700 hover:[transform:perspective(1200px)_rotateX(2deg)_rotateY(-6deg)_skewY(-1deg)]">
+            <video
+              src="/cv%20final.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="h-full w-full object-contain"
+            />
+          </div>
+        </div>
       </div>
     </section>
   )
 }
-

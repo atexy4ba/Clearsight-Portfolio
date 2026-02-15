@@ -1,79 +1,69 @@
 "use client"
 
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { SlidingNumber } from "@/components/animate-ui/primitives/texts/sliding-number"
+import { Camera, Film, Sparkles } from "lucide-react"
 
 export default function AboutSection() {
-  const stats = [
-    { value: 5, suffix: "+", label: "Ans d'expérience" },
-    { value: 50, suffix: "+", label: "Projets réalisés" },
-    { value: 100, suffix: "%", label: "Satisfaction client" },
+  const services = [
+    {
+      title: "Production vidéo premium",
+      description:
+        "Films de marque, publicités et contenus courts optimisés pour la conversion et l’impact visuel.",
+      icon: Film,
+    },
+    {
+      title: "Photographie éditoriale",
+      description: "Shooting produits, lifestyle et campagnes multi-formats avec une direction artistique dédiée.",
+      icon: Camera,
+    },
+    {
+      title: "Post-production & motion",
+      description: "Montage, étalonnage, sound design et animations pour un rendu cinéma.",
+      icon: Sparkles,
+    },
   ]
 
   return (
-    <section className="py-20 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
-      <div className="space-y-12">
-        {/* Header */}
-        <div className="space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground">À Propos de Clearsight</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            Clearsight est un studio de production créatif spécialisé dans la création de contenus visuels d'exception.
-            Avec plus de cinq ans d'expérience, nous avons concrétisé les visions de cinquante clients à travers des
-            films, vidéos commerciales et photographies qui capturent l'essence de leurs marques.
-          </p>
-        </div>
-
-        {/* Video */}
-        <div className="border border-border rounded-lg overflow-hidden">
-          <AspectRatio ratio={21 / 9}>
-            <video
-              src="/cv%20final.mp4"
-              controls
-              preload="metadata"
-              className="h-full w-full object-cover"
-            />
-          </AspectRatio>
-        </div>
-
-        {/* Stats (animated slowly, blue numbers) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="border border-border rounded-lg p-8 hover:border-primary transition-colors duration-300"
+    <section id="services" className="py-20">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-end">
+          <div className="space-y-4">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Nos services
+            </span>
+            <h2
+              data-animate-title
+              className="title-animate text-balance text-3xl font-[var(--font-poly)] font-semibold md:text-4xl"
             >
-              <div className="space-y-2">
-                <div className="text-5xl font-bold">
-                  <SlidingNumber
-                    className="text-primary"
-                    number={stat.value}
-                    fromNumber={0}
-                    decimalPlaces={0}
-                    transition={{ stiffness: 60, damping: 28, mass: 0.6 }}
-                    delay={80 * index}
-                    inView={true}
-                    inViewOnce={true}
-                  />
-                  <span className="text-primary">{stat.suffix}</span>
-                </div>
-                <p className="text-muted-foreground text-sm uppercase tracking-wider">{stat.label}</p>
-              </div>
-            </div>
-          ))}
+              L’expérience créative complète, pensée pour votre croissance.
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              De l’idée au rendu final, nous orchestrons chaque étape pour livrer des contenus alignés sur votre
+              stratégie de marque.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-primary/10 via-background to-background p-6 text-sm text-muted-foreground">
+            Trois pôles d’expertise pour accélérer vos lancements, renforcer votre image et générer plus d’engagement.
+          </div>
         </div>
 
-        {/* Description */}
-        <div className="border border-border rounded-lg p-8 md:p-12">
-          <p className="text-foreground leading-relaxed space-y-4">
-            <span className="block">
-              Notre passion réside dans la transformation d'idées en expériences visuelles captivantes. Chaque projet
-              est une opportunité de repousser les limites créatives et de livrer des contenus qui marquent les esprits.
-            </span>
-            <span className="block">
-              De la pré-production à la post-production, nous mettons en œuvre une expertise complète pour garantir que
-              votre vision devient réalité avec la plus haute qualité.
-            </span>
-          </p>
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          {services.map((service) => {
+            const Icon = service.icon
+            return (
+              <div
+                key={service.title}
+                className="group rounded-2xl border border-border/60 bg-card/60 p-6 shadow-lg shadow-primary/5 transition hover:-translate-y-1 hover:border-primary/40"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-primary">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h3 data-animate-title className="title-animate mt-6 text-lg font-semibold">
+                  {service.title}
+                </h3>
+                <p className="mt-3 text-sm text-muted-foreground">{service.description}</p>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

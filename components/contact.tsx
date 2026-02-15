@@ -53,13 +53,15 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-24 px-6">
+    <section id="contact" className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact info */}
           <div>
-            <h2 className="text-5xl md:text-6xl font-bold mb-8">Let's Create Together</h2>
-            <p className="text-lg text-muted-foreground mb-12 leading-relaxed">
+            <h2 data-animate-title className="title-animate text-5xl md:text-6xl font-bold mb-8">
+              Let's Create Together
+            </h2>
+            <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
               Ready to bring your vision to life? Get in touch with our team to discuss your next project.
             </p>
 

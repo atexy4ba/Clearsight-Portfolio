@@ -10,6 +10,32 @@ export default function Navigation() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => setMounted(true), [])
+  React.useEffect(() => {
+    if (typeof window === "undefined") return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    let lenis: { raf: (time: number) => void; destroy: () => void } | null = null
+    let rafId = 0
+    const start = async () => {
+      const mod = await import("lenis")
+      const Lenis = mod.default
+      lenis = new Lenis({
+        duration: 1.2,
+        smoothWheel: true,
+        smoothTouch: false,
+        lerp: 0.1,
+      })
+      const raf = (time: number) => {
+        lenis?.raf(time)
+        rafId = window.requestAnimationFrame(raf)
+      }
+      rafId = window.requestAnimationFrame(raf)
+    }
+    start()
+    return () => {
+      window.cancelAnimationFrame(rafId)
+      lenis?.destroy()
+    }
+  }, [])
   return (
     <nav className="absolute inset-x-0 top-0 w-full z-50 border-none bg-transparent dark:bg-transparent text-black dark:text-white">
       <div className="bg-transparent max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -21,8 +47,8 @@ export default function Navigation() {
           <Link href="/work" className="text-sm hover:opacity-80 transition-opacity">
             Work
           </Link>
-          <Link href="/brief" className="text-sm hover:opacity-80 transition-opacity">
-            Brief
+          <Link href="/contact" className="text-sm hover:opacity-80 transition-opacity">
+            Contact
           </Link>
           {mounted && (
             <button
@@ -43,4 +69,3 @@ export default function Navigation() {
     </nav>
   )
 }
-
