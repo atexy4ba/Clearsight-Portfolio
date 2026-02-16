@@ -29,11 +29,12 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
           {project.media.type === "video" ? (
             <video
               ref={videoRef}
-              src={encodeURI(project.media.src)}
-              poster={project.media.poster ? encodeURI(project.media.poster) : undefined}
+              src={project.media.src}
+              poster={project.media.poster ? project.media.poster : undefined}
               muted
               loop
               playsInline
+              autoPlay
               preload="metadata"
               className={mediaClassName}
               onMouseEnter={() => {
@@ -47,7 +48,7 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
               }}
             />
           ) : (
-            <img src={encodeURI(project.media.src)} alt={project.title} className={mediaClassName} loading="lazy" />
+            <img src={project.media.src} alt={project.title} className={mediaClassName} loading="lazy" />
           )}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-90 transition group-hover:opacity-70" />
         </div>

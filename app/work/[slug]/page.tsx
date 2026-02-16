@@ -26,19 +26,19 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
 
   const VideoPlayer = ({ className = "" }: { className?: string }) => (
     <video
-      src={encodeURI(project.media.src)}
+      src={project.media.src}
       muted
       loop
       playsInline
       autoPlay
-      preload="metadata"
+      preload="none"
       className={className}
     />
   )
 
   const ImageDisplay = () => (
     <img
-      src={encodeURI(project.media.src)}
+      src={project.media.src}
       alt={project.title}
       className="h-full w-full object-contain"
       loading="lazy"

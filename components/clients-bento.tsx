@@ -38,7 +38,7 @@ export default function ClientsBento() {
               className="flex-shrink-0 h-16 md:h-20 w-40 md:w-48 flex items-center justify-center opacity-90 transition hover:opacity-100"
             >
               <img
-                src={encodeURI(src)}
+                src={src}
                 alt="Logo client"
                 className="max-h-full max-w-full object-contain"
                 loading="lazy"

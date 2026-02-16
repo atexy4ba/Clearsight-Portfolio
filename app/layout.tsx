@@ -37,7 +37,7 @@ export default function RootLayout({
           <footer className="mt-20 border-t border-border/50">
             <div className="max-w-7xl mx-auto px-6 py-10 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <img src="/logo%20csp.png" alt="Clearsight logo" className="h-10 w-auto object-contain" />
+                <img src="/logo csp.png" alt="Clearsight logo" className="h-10 w-auto object-contain" />
                 <span className="font-semibold">Clearsight</span>
               </div>
               <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Clearsight. All rights reserved.</p>
