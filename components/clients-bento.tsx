@@ -35,7 +35,7 @@ export default function ClientsBento() {
           {duplicated.map((src, idx) => (
             <div
               key={`${src}-${idx}`}
-              className="flex-shrink-0 h-16 md:h-20 w-40 md:w-48 flex items-center justify-center opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0"
+              className="flex-shrink-0 h-16 md:h-20 w-40 md:w-48 flex items-center justify-center opacity-90 transition hover:opacity-100"
             >
               <img
                 src={encodeURI(src)}

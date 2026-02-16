@@ -1,26 +1,20 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
 import Navigation from "@/components/navigation"
+import ProjectCard from "@/components/ui/project-card"
+import { projects } from "@/data/projects"
+
+const filters = ["Tous", "Production Vidéo", "Photographie", "Post-prod"] as const
+type Filter = (typeof filters)[number]
 
 export default function WorkPage() {
-  const services = [
-    {
-      title: "Production vidéo",
-      description: "Campagnes publicitaires, films de marque et contenus courts.",
-      tags: ["Brand film", "Social ads", "Documentaire"],
-    },
-    {
-      title: "Photographie",
-      description: "Sessions produit, lifestyle et portrait corporate.",
-      tags: ["Évènementiel", "Produit", "Portrait"],
-    },
-    {
-      title: "Post-production",
-      description: "Montage premium, étalonnage et motion design.",
-      tags: ["Montage", "Color grading", "Animation"],
-    },
-  ]
+  const [activeFilter, setActiveFilter] = useState<Filter>("Tous")
+  const visibleProjects = useMemo(
+    () => (activeFilter === "Tous" ? projects : projects.filter((project) => project.service === activeFilter)),
+    [activeFilter],
+  )
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-animate-title]"))
@@ -42,8 +36,9 @@ export default function WorkPage() {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <section className="pt-24 pb-12">
-        <div className="mx-auto max-w-6xl px-6 text-center space-y-4">
+      <section className="relative overflow-hidden pt-24 pb-16">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background pointer-events-none" />
+        <div className="mx-auto max-w-6xl px-6 text-center space-y-4 relative z-10">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             Work
           </span>
@@ -51,39 +46,59 @@ export default function WorkPage() {
             data-animate-title
             className="title-animate text-balance text-4xl font-[var(--font-poly)] font-semibold md:text-5xl"
           >
-            Nos services en action.
+            Des projets conçus pour marquer la rétine.
           </h1>
           <p className="text-lg text-muted-foreground">
-            Une vision claire par service. Nous compléterons cette page avec vos projets.
+            Une sélection immersive par service, pensée pour transmettre l’énergie et la précision de chaque production.
           </p>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
+            {filters.map((filter) => {
+              const isActive = activeFilter === filter
+              return (
+                <button
+                  key={filter}
+                  type="button"
+                  onClick={() => setActiveFilter(filter)}
+                  className="relative pb-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground transition hover:text-primary"
+                  aria-pressed={isActive}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="work-filter-pill"
+                      className="absolute inset-x-0 bottom-0 h-[2px] bg-primary"
+                      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  )}
+                  <span className={`relative z-10 ${isActive ? "text-primary" : "text-muted-foreground"}`}>
+                    {filter}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         </div>
       </section>
 
-      <section className="pb-16">
+      <section className="pb-24">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-6 md:grid-cols-3">
-            {services.map((service) => (
-              <div
-                key={service.title}
-                className="rounded-2xl border border-border/60 bg-card/60 p-6 shadow-lg shadow-primary/5 transition hover:-translate-y-1 hover:border-primary/40"
-              >
-                <h3 data-animate-title className="title-animate text-xl font-semibold">
-                  {service.title}
-                </h3>
-                <p className="mt-3 text-sm text-muted-foreground">{service.description}</p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  {service.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-border/70 bg-background px-4 py-2 text-xs font-semibold text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <motion.div layout className="columns-1 gap-6 sm:columns-2 xl:columns-3 [column-fill:_balance]">
+            <AnimatePresence mode="popLayout">
+              {visibleProjects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="mb-6 break-inside-avoid"
+                >
+                  <ProjectCard project={project} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
     </main>

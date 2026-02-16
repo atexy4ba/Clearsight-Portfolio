@@ -1,14 +1,23 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Navigation from "@/components/navigation"
 import HeroMinimal from "@/components/hero-minimal"
 import AboutSection from "@/components/about-section"
 import ClientsBento from "@/components/clients-bento"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import ProjectCard from "@/components/ui/project-card"
+import { projects } from "@/data/projects"
 
 export default function Home() {
+  const featuredProjects = projects.filter((project) => project.featured).slice(0, 3)
+  const featuredRef = useRef<HTMLDivElement | null>(null)
+  const { scrollYProgress } = useScroll({ target: featuredRef, offset: ["start end", "end start"] })
+  const parallaxFast = useTransform(scrollYProgress, [0, 1], [24, -24])
+  const parallaxMid = useTransform(scrollYProgress, [0, 1], [12, -12])
+  const parallaxSlow = useTransform(scrollYProgress, [0, 1], [0, -6])
   const serviceTypes = [
     {
       title: "Photographie",
@@ -71,6 +80,42 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
       <HeroMinimal />
+      <section ref={featuredRef} className="py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="space-y-4">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Featured Work
+              </span>
+              <h2
+                data-animate-title
+                className="title-animate text-balance text-3xl font-[var(--font-poly)] font-semibold md:text-4xl"
+              >
+                Sélection de travaux premium, pensée pour captiver.
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Trois projets phares pour ressentir l’esthétique, la narration et la précision de notre studio.
+              </p>
+            </div>
+            <Link
+              href="/work"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary/50 hover:text-primary"
+            >
+              Voir tous les projets
+            </Link>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {featuredProjects.map((project, index) => {
+              const offset = index === 0 ? parallaxFast : index === 1 ? parallaxMid : parallaxSlow
+              return (
+                <motion.div key={project.id} style={{ y: offset }} className="will-change-transform">
+                  <ProjectCard project={project} className="min-h-[380px]" />
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
       <ClientsBento />
       <AboutSection />
 
@@ -111,16 +156,13 @@ export default function Home() {
                     </h3>
                     <p className="text-sm text-muted-foreground">{service.description}</p>
                   </div>
-                  <div className="mt-6 flex flex-wrap gap-3">
+                  <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
                     {service.items.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-full border border-border/70 bg-background px-4 py-2 text-xs font-semibold text-muted-foreground"
-                      >
-                        {item}
-                      </span>
+                      <li key={item} className="flex items-center justify-between border-b border-border/40 pb-2">
+                        <span>{item}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               ))}
             </div>
