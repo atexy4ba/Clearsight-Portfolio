@@ -1,20 +1,16 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { useEffect } from "react"
+import { motion } from "framer-motion"
 import Navigation from "@/components/navigation"
 import ProjectCard from "@/components/ui/project-card"
 import { projects } from "@/data/projects"
 
-const filters = ["Tous", "Production Vidéo", "Photographie", "Post-prod"] as const
-type Filter = (typeof filters)[number]
-
 export default function WorkPage() {
-  const [activeFilter, setActiveFilter] = useState<Filter>("Tous")
-  const visibleProjects = useMemo(
-    () => (activeFilter === "Tous" ? projects : projects.filter((project) => project.service === activeFilter)),
-    [activeFilter],
-  )
+  const reseauxSociauxProjects = projects.filter((p) => p.service === "Réseaux Sociaux")
+  const persoProjects = projects.filter((p) => p.service === "Projets Personnels")
+
+  const clients = ["Garden Pépinière", "Coco Spa", "GR", "Les Frères K"]
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-animate-title]"))
@@ -36,69 +32,85 @@ export default function WorkPage() {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation />
-      <section className="relative overflow-hidden pt-24 pb-16">
+      
+      {/* Header Section */}
+      <section className="relative overflow-hidden pt-24 pb-12">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background pointer-events-none" />
         <div className="mx-auto max-w-6xl px-6 text-center space-y-4 relative z-10">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            Work
+            Portfolio
           </span>
           <h1
             data-animate-title
             className="title-animate text-balance text-4xl font-[var(--font-poly)] font-semibold md:text-5xl"
           >
-            Des projets conçus pour marquer la rétine.
+            Nos Réalisations
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Une sélection immersive par service, pensée pour transmettre l’énergie et la précision de chaque production.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Une exploration visuelle de nos collaborations clients et de nos projets créatifs.
           </p>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
-            {filters.map((filter) => {
-              const isActive = activeFilter === filter
-              return (
-                <button
-                  key={filter}
-                  type="button"
-                  onClick={() => setActiveFilter(filter)}
-                  className="relative pb-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground transition hover:text-primary"
-                  aria-pressed={isActive}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="work-filter-pill"
-                      className="absolute inset-x-0 bottom-0 h-[2px] bg-primary"
-                      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  )}
-                  <span className={`relative z-10 ${isActive ? "text-primary" : "text-muted-foreground"}`}>
-                    {filter}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
         </div>
       </section>
 
-      <section className="pb-24">
+      {/* Réseaux Sociaux Section */}
+      <section className="py-12">
         <div className="mx-auto max-w-6xl px-6">
-          <motion.div layout className="columns-1 gap-6 sm:columns-2 xl:columns-3 [column-fill:_balance]">
-            <AnimatePresence mode="popLayout">
-              {visibleProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="mb-6 break-inside-avoid"
-                >
-                  <ProjectCard project={project} />
-                </motion.div>
+          <div className="flex items-center gap-6 mb-16">
+             <div className="h-px bg-border flex-1"></div>
+             <h2 className="text-3xl md:text-4xl font-bold text-primary uppercase tracking-widest text-center px-4">
+               Réseaux Sociaux
+             </h2>
+             <div className="h-px bg-border flex-1"></div>
+          </div>
+           
+           <div className="space-y-24">
+             {clients.map((client) => {
+               const clientProjects = reseauxSociauxProjects.filter((p) => p.client === client)
+               if (clientProjects.length === 0) return null
+
+               return (
+                 <div key={client} className="space-y-8">
+                   <div className="flex items-baseline gap-4 border-b border-border/50 pb-4">
+                     <h3 className="text-2xl font-serif font-semibold text-foreground/90">
+                       {client}
+                     </h3>
+                     <span className="text-sm text-muted-foreground uppercase tracking-wider">
+                       {clientProjects.length} {clientProjects.length > 1 ? 'projets' : 'projet'}
+                     </span>
+                   </div>
+                   
+                   <div className="columns-1 gap-6 sm:columns-2 xl:columns-3 [column-fill:_balance]">
+                     {clientProjects.map((project, index) => (
+                        <div key={project.id} className="mb-6 break-inside-avoid">
+                           <ProjectCard project={project} />
+                        </div>
+                     ))}
+                   </div>
+                 </div>
+               )
+             })}
+           </div>
+        </div>
+      </section>
+
+      {/* Perso Section */}
+      <section className="py-24 bg-secondary/5 mt-12">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex items-center gap-6 mb-16">
+             <div className="h-px bg-border flex-1"></div>
+             <h2 className="text-3xl md:text-4xl font-bold text-primary uppercase tracking-widest text-center px-4">
+               Projets Personnels
+             </h2>
+             <div className="h-px bg-border flex-1"></div>
+          </div>
+
+           <div className="columns-1 gap-6 sm:columns-2 xl:columns-3 [column-fill:_balance]">
+              {persoProjects.map((project) => (
+                 <div key={project.id} className="mb-6 break-inside-avoid">
+                    <ProjectCard project={project} />
+                 </div>
               ))}
-            </AnimatePresence>
-          </motion.div>
+           </div>
         </div>
       </section>
     </main>
