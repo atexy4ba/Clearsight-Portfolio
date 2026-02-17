@@ -10,6 +10,8 @@ import ClientsBento from "@/components/clients-bento"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import ProjectCard from "@/components/ui/project-card"
 import { projects } from "@/data/projects"
+import { Instagram } from 'lucide-react';
+import { TikTokIcon } from '@/components/footer';
 
 export default function Home() {
   const featuredProjects = projects.filter((project) => project.featured).slice(0, 3)
@@ -41,11 +43,6 @@ export default function Home() {
       question: "Combien de temps pour livrer un projet complet ?",
       answer:
         "Nous définissons un planning précis dès le brief. La plupart des productions sont livrées entre 2 et 6 semaines.",
-    },
-    {
-      question: "Travaillez-vous partout en France et à l’international ?",
-      answer:
-        "Oui, nous nous déplaçons selon vos besoins. Notre équipe peut gérer des tournages locaux ou internationaux.",
     },
     {
       question: "Proposez-vous des packs pour plusieurs services ?",
@@ -201,22 +198,36 @@ export default function Home() {
       <section className="pb-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="rounded-[2rem] border border-border/60 bg-gradient-to-r from-primary/15 via-background to-primary/10 px-8 py-12 text-center shadow-xl shadow-primary/10 md:px-16">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Newsletter</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Réseaux Sociaux</p>
             <h2
               data-animate-title
               className="title-animate mt-4 text-balance text-3xl font-[var(--font-poly)] font-semibold md:text-4xl"
             >
-              Restons connectés pour vos prochains lancements.
+              Suivez notre actualité et nos projets.
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Un seul canal pour recevoir nos inspirations créatives et réserver vos dates de tournage.
+              Retrouvez nos dernières créations et coulisses sur Instagram et TikTok.
             </p>
-            <Link
-              href="/contact"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary/90"
-            >
-              Contacter le studio
-            </Link>
+            <div className="mt-8 flex justify-center gap-4">
+              <Link
+                href="https://www.instagram.com/clearsight_prod/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary/90"
+              >
+                <Instagram className="h-5 w-5" />
+                Instagram
+              </Link>
+              <Link
+                href="https://www.tiktok.com/@clearsightprod"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary/90"
+              >
+                <TikTokIcon className="h-5 w-5" />
+                TikTok
+              </Link>
+            </div>
           </div>
         </div>
       </section>

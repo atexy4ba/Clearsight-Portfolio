@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
+import Footer from "@/components/footer"
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["100","200","300","400","500","600","700","800","900"] })
 const poly = Poly({ subsets: ["latin"], weight: ["400"], variable: "--font-poly" })
@@ -12,6 +13,20 @@ const poly = Poly({ subsets: ["latin"], weight: ["400"], variable: "--font-poly"
 export const metadata: Metadata = {
   title: "Clearsight - Production Studio",
   description: "Clearsight is a creative production studio specializing in film, video, and photography.",
+  openGraph: {
+    title: "Clearsight - Production Studio",
+    description: "Creative production studio specializing in film, video, and photography.",
+    images: [
+      {
+        url: "/logo%20csp.png", // Must be an absolute URL in production
+        width: 800,
+        height: 600,
+        alt: "Clearsight Logo",
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
   icons: {
     icon: [
       {
@@ -31,18 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body className={`${outfit.className} ${poly.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           {children}
           <Toaster richColors />
-          <footer className="mt-20 border-t border-border/50">
-            <div className="max-w-7xl mx-auto px-6 py-10 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <img src="/logo csp.png" alt="Clearsight logo" className="h-10 w-auto object-contain" />
-                <span className="font-semibold">Clearsight</span>
-              </div>
-              <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Clearsight. All rights reserved.</p>
-            </div>
-          </footer>
+          <Footer />
           <Analytics />
         </ThemeProvider>
       </body>
