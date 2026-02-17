@@ -4,6 +4,9 @@ import Link from "next/link"
 import { ArrowRight, PlayCircle } from "lucide-react"
 
 export default function HeroMinimal() {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "dkgm3e8z5";
+  const videoSrc = `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto/v1771266114/cvfinal_gqiwa2`;
+
   const heroLines = ["Des visuels qui font", "vibrer votre marque"]
   return (
     <section className="relative min-h-screen overflow-hidden pt-24">
@@ -62,14 +65,17 @@ export default function HeroMinimal() {
           <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-primary/20 blur-2xl opacity-80" />
           <div className="relative aspect-video overflow-hidden rounded-[2rem] border border-white/10 bg-black/90 shadow-2xl [transform:perspective(1200px)_rotateX(8deg)_rotateY(-12deg)_skewY(-2deg)] transition duration-700 hover:[transform:perspective(1200px)_rotateX(2deg)_rotateY(-6deg)_skewY(-1deg)]">
             <video
-              src="/cv%20final.mp4"
               autoPlay
-              muted
               loop
+              muted
               playsInline
-              preload="metadata"
-              className="h-full w-full object-contain"
-            />
+              poster={`https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto,so_0/v1771266114/cvfinal_gqiwa2.jpg`}
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src={videoSrc + ".mp4"} type="video/mp4" />
+              <source src={videoSrc.replace('f_auto', 'f_webm') + ".webm"} type="video/webm" />
+              Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
           </div>
         </div>
       </div>
