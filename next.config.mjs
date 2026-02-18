@@ -3,6 +3,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  exclude: ['**/[slug]/**'],
   images: {
     unoptimized: true,
     remotePatterns: [
