@@ -2,7 +2,7 @@ export type Project = {
   id: string
   title: string
   client: string
-  service: "Réseaux Sociaux" | "Projets Personnels"
+  service: "Réseaux Sociaux" | "Projets Personnels" | "Événementiel" | "Corporate"
   media: {
     type: "video"
     src: string
@@ -12,6 +12,59 @@ export type Project = {
 }
 
 export const projects: Project[] = [
+  // Corporate
+  {
+    id: "nosoclean",
+    title: "Nosoclean",
+    client: "Nosoclean",
+    service: "Corporate",
+    media: { type: "video", src: "https://res.cloudinary.com/dkgm3e8z5/video/upload/v1772474330/nosoclean_drnwnu.mp4" }
+  },
+  {
+    id: "collable",
+    title: "Collable",
+    client: "Collable",
+    service: "Corporate",
+    media: { type: "video", src: "https://res.cloudinary.com/dkgm3e8z5/video/upload/v1772474487/collable_hnuajl.mp4" }
+  },
+  {
+    id: "baraka",
+    title: "Baraka",
+    client: "Baraka",
+    service: "Corporate",
+    media: { type: "video", src: "https://res.cloudinary.com/dkgm3e8z5/video/upload/v1772474719/baraka_sqgub9.mp4" }
+  },
+  {
+    id: "numidia",
+    title: "Numidia",
+    client: "Numidia",
+    service: "Corporate",
+    media: { type: "video", src: "https://res.cloudinary.com/dkgm3e8z5/video/upload/v1772476613/Numidia_psjjub.mp4" }
+  },
+
+  // Événementiel / Mariages
+  {
+    id: "agrivil",
+    title: "Agrivil",
+    client: "Agrivil",
+    service: "Événementiel",
+    media: { type: "video", src: "https://res.cloudinary.com/dkgm3e8z5/video/upload/v1772477401/AGRIVIL_1_ojnesm.mp4" }
+  },
+  {
+    id: "mariage-1",
+    title: "Mariage #1",
+    client: "Privé",
+    service: "Événementiel",
+    media: { type: "video", src: "https://res.cloudinary.com/dkgm3e8z5/video/upload/v1772473434/mariage_kpanxe.mp4" },
+    featured: true
+  },
+  {
+    id: "mariage-2",
+    title: "Mariage #2",
+    client: "Privé",
+    service: "Événementiel",
+    media: { type: "video", src: "https://res.cloudinary.com/dkgm3e8z5/video/upload/v1772473656/mariuage_ctp9qy.mp4" }
+  },
   // Garden Pépinière
   {
     id: "anthuriu",

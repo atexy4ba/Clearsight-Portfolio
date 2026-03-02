@@ -8,6 +8,8 @@ import { projects } from "@/data/projects"
 
 export default function WorkPage() {
   const reseauxSociauxProjects = projects.filter((p) => p.service === "Réseaux Sociaux")
+  const corporateProjects = projects.filter((p) => p.service === "Corporate")
+  const evenementielProjects = projects.filter((p) => p.service === "Événementiel")
   const persoProjects = projects.filter((p) => p.service === "Projets Personnels")
 
   const clients = ["Garden Pépinière", "Coco Spa", "GR", "Les Frères K"]
@@ -79,17 +81,59 @@ export default function WorkPage() {
                      </span>
                    </div>
                    
-                   <div className="columns-1 gap-6 sm:columns-2 xl:columns-3 [column-fill:_balance]">
-                     {clientProjects.map((project, index) => (
-                        <div key={project.id} className="mb-6 break-inside-avoid">
-                           <ProjectCard project={project} />
-                        </div>
-                     ))}
-                   </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {clientProjects.map((project, index) => (
+                         <div key={project.id}>
+                            <ProjectCard project={project} />
+                         </div>
+                      ))}
+                    </div>
                  </div>
                )
              })}
            </div>
+        </div>
+      </section>
+
+      {/* Corporate Section */}
+      <section className="py-12">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex items-center gap-6 mb-16">
+             <div className="h-px bg-border flex-1"></div>
+             <h2 className="text-3xl md:text-4xl font-bold text-primary uppercase tracking-widest text-center px-4">
+               Corporate
+             </h2>
+             <div className="h-px bg-border flex-1"></div>
+          </div>
+           
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {corporateProjects.map((project) => (
+              <div key={project.id}>
+                <ProjectCard project={project} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Événementiel Section */}
+      <section className="py-12">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex items-center gap-6 mb-16">
+             <div className="h-px bg-border flex-1"></div>
+             <h2 className="text-3xl md:text-4xl font-bold text-primary uppercase tracking-widest text-center px-4">
+               Événementiel
+             </h2>
+             <div className="h-px bg-border flex-1"></div>
+          </div>
+           
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {evenementielProjects.map((project) => (
+              <div key={project.id}>
+                <ProjectCard project={project} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -104,13 +148,13 @@ export default function WorkPage() {
              <div className="h-px bg-border flex-1"></div>
           </div>
 
-           <div className="columns-1 gap-6 sm:columns-2 xl:columns-3 [column-fill:_balance]">
-              {persoProjects.map((project) => (
-                 <div key={project.id} className="mb-6 break-inside-avoid">
-                    <ProjectCard project={project} />
-                 </div>
-              ))}
-           </div>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+               {persoProjects.map((project) => (
+                  <div key={project.id}>
+                     <ProjectCard project={project} />
+                  </div>
+               ))}
+            </div>
         </div>
       </section>
     </main>

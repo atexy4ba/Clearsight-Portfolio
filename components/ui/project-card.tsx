@@ -25,7 +25,7 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
 
   const posterUrl = project.media.src.replace(/\.mp4$/, ".jpg")
   const mediaClassName = "absolute top-0 left-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
-  const mediaWrapperClass = "relative overflow-hidden aspect-[16/10] bg-black rounded-t-[2rem]"
+  const mediaWrapperClass = "relative overflow-hidden aspect-video bg-black rounded-t-[2rem]"
 
   return (
     <article
